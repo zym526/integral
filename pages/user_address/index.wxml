@@ -1,0 +1,57 @@
+<navbar parameter='{{parameter}}'></navbar>
+
+<form bindsubmit="formSubmit" report-submit='true'>
+<view class='addAddress'>
+   <view class='list'>
+      <view class='item acea-row row-between-wrapper'>
+          <view class='name'>姓名</view>
+          <input type='text' placeholder='请输入姓名' name='real_name' value="{{userAddress.real_name}}" placeholder-class='placeholder'></input>
+      </view>
+      <view class='item acea-row row-between-wrapper'>
+          <view class='name'>联系电话</view>
+          <input type='text' placeholder='请输入联系电话' name="phone" value='{{userAddress.phone}}' placeholder-class='placeholder'></input>
+      </view>
+      <view class='item acea-row row-between-wrapper address-you'>
+          <view class='name'>所在地区</view>
+          <!-- <picker mode="multiSelector" bindchange="bindRegionChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{valueRegion}}" custom-item="{{customItem}}" range="{{multiArray}}">
+            <view class='acea-row row-between-wrapper'>
+              <view class="picker">{{region[0]}}，{{region[1]}}，{{region[2]}}</view>
+              <view class='iconfont icon-dizhi font-color'></view>
+            </view>
+          </picker> -->
+          <input type='text' placeholder='请选择所在地区' disabled="disabled" bindtap="open" value='{{youAddress}}' placeholder-class='placeholder'></input>
+          <text class='iconfont icon-jiantou'></text>
+      </view>
+        <view class='item acea-row row-between-wrapper'>
+          <view class='name'>详细地址</view>
+          <input type='text' placeholder='请填写具体地址' name='detail' placeholder-class='placeholder' value='{{userAddress.detail}}'></input>
+      </view>
+   </view>
+   <view class='default acea-row row-middle'>
+      <checkbox-group bindchange='ChangeIsDefault'><checkbox checked="{{userAddress.is_default ? true : false }}"/>设置为默认地址</checkbox-group>
+   </view>
+   <button class='keepBnt bg-color' formType="submit">立即保存</button>
+   <view class="wechatAddress" bindtap="getWxAddress">导入微信地址</view>
+</view>
+</form>
+<authorize bind:onLoadFun='onLoadFun'></authorize>
+<!-- 获取省市区县 -->
+<view class="popups" hidden="{{ !isShowCity }}" bind:close="onClose2">
+  <view class="address-select">
+    所在地区
+    <view class="iconfont icon-guanbi" bindtap="onClose2"></view>
+  </view>
+  <!-- 省市区县乡 -->
+  <view class="address-select-top">
+    <view class="address-four-one {{indexNow==0?'red-address':''}} {{province.name?'show':'noShow'}}" bindtap="changeCity" data-index="0">{{province.name}}</view>
+    <view class="address-four-one {{indexNow==1?'red-address':''}} {{city.name?'show':'noShow'}}" bindtap="changeCity" data-index="1">{{city.name}}</view>
+    <view class="address-four-one {{indexNow==2?'red-address':''}} {{district.name?'show':'noShow'}}" bindtap="changeCity" data-index="2">{{district.name}}</view>
+    <view class="address-four-one {{indexNow==3?'red-address':''}} {{county.name?'show':'noShow'}}" bindtap="changeCity" data-index="3">{{county.name}}</view>
+  </view>
+  <view class="all-select">
+    <view class="one-select" wx:for="{{indexNow==0?provinceAll:indexNow==1?cityAll:indexNow==2?districtAll:countyAll}}" wx:key="index" bindtap="selectAllCity" data-id="{{item}}" data-name="{{index}}">
+      <text>{{index}}</text>
+      <image src="https://imgxypvipcn.oss-cn-hangzhou.aliyuncs.com/1b43e9bbbc123a9a95f4bfd46d17a47d-C%3A%5CUsers%5C22659%5CAppData%5CLocal%5CTemp%5CphpF4C8.tmp.png" mode="widthFix" hidden="{{indexNow==0?index!=province.name:indexNow==1?index!=city.name:indexNow==2?index!=district.name:index!=county.name}}"></image>
+    </view>
+  </view>
+</view>
